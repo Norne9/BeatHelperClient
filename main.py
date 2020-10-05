@@ -7,11 +7,6 @@ from app_logic import AppLogic
 from song import Song
 from typing import List
 
-DOWNLOAD_NAMES = {
-    0: "Make playlist and download",
-    1: "Download"
-}
-
 
 def wx_after(func):
     def after_fun(*args, **kwargs):
@@ -114,7 +109,7 @@ class MainFrame(wx.Frame):
                                        style=wx.GA_HORIZONTAL | wx.GA_SMOOTH)
         sizer_5.Add(self.download_gauge, 1, wx.EXPAND, 0)
 
-        self.download_button = wx.Button(self.download_panel, wx.ID_ANY, DOWNLOAD_NAMES[self.notebook_1.GetSelection()])
+        self.download_button = wx.Button(self.download_panel, wx.ID_ANY, "Make playlist and download")
         sizer_5.Add(self.download_button, 0, 0, 0)
 
         self.cancel_button = wx.Button(self.download_panel, wx.ID_ANY, "Cancel")
@@ -136,7 +131,6 @@ class MainFrame(wx.Frame):
         self.Layout()
 
         self.Bind(wx.EVT_BUTTON, self.on_browse, self.browse_button)
-        self.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED, self.on_page_change, self.notebook_1)
         self.Bind(wx.EVT_BUTTON, self.on_recommend, self.recommend_button)
         self.Bind(wx.EVT_BUTTON, self.on_find, self.find_button)
         self.Bind(wx.EVT_BUTTON, self.on_download, self.download_button)
@@ -197,10 +191,6 @@ class MainFrame(wx.Frame):
         if dir_selector.ShowModal() == wx.ID_OK:
             self.path_text.SetValue(dir_selector.GetPath())
         dir_selector.Destroy()
-
-    def on_page_change(self, event: wx.BookCtrlEvent):
-        self.download_button.SetLabel(DOWNLOAD_NAMES[event.GetSelection()])
-        self.download_panel.Layout()
 
     def on_recommend(self, event):  # wxGlade: MainFrame.<event_handler>
         print("Event handler 'on_recommend' not implemented!")

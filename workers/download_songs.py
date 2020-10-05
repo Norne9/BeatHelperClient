@@ -5,6 +5,7 @@ from workers.stoppable_thread import StoppableThread
 import os
 import zipfile
 
+__all__ = ["DownloadSongsWorker"]
 ZIP_FILE = "song.zip"
 
 

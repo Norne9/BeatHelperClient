@@ -2,6 +2,8 @@ from song import Song
 from typing import List
 import os
 
+__all__ = ["SongManager"]
+
 
 class SongManager:
     game_path: str

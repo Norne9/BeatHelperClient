@@ -3,9 +3,14 @@ from typing import Callable, List, Optional
 from workers.stoppable_thread import StoppableThread
 from workers.fetch_songs import FetchSongsWorker
 from workers.download_songs import DownloadSongsWorker
+from workers.make_playlist import make_playlist
+
+__all__ = ["AppLogic"]
+
 
 class AppLogic:
     game_path: str
+    playlist_name: str
     song_manager: SongManager
     show_songs: Callable[[List[Song]], None]
     show_message: Callable[[str], None]
@@ -38,7 +43,11 @@ class AppLogic:
             self.worker.join()
 
     def find_songs(self, min_score: float):
+        self.playlist_name = "Top"
         self.__fetch_songs(min_score, 10000)
+
+    def recommend_songs(self, player_link: str):
+        pass
 
     def download(self):
         if len(self.current_songs) == 0:
@@ -46,12 +55,13 @@ class AppLogic:
 
         self.cancel_task()
         self.song_manager.check_exist(self.current_songs)
-        song_count = sum(1 for s in self.current_songs if not s.downloaded)
+        song_count = len(self.current_songs)
 
         def on_done():
             self.song_manager.check_exist(self.current_songs)
             new_song_count = sum(1 for s in self.current_songs if s.downloaded)
             self.show_songs(self.current_songs)
+            make_playlist(self.current_songs, self.game_path, self.playlist_name)
             self.set_buttons(True)
             self.set_status(f"Downloaded {new_song_count}/{song_count} songs.")
 

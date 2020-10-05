@@ -4,6 +4,8 @@ from song import Song
 from typing import Callable, List
 from workers.stoppable_thread import StoppableThread
 
+__all__ = ["FetchSongsWorker"]
+
 
 class FetchSongsWorker(StoppableThread):
     min_score: float
