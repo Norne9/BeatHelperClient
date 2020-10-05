@@ -94,4 +94,3 @@ class AppLogic:
         self.set_buttons(False)
         self.set_status("Searching songs...")
         FetchSongsWorker(min_score, avg_score, on_done, on_message).start()
-

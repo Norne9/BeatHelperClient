@@ -11,7 +11,7 @@ class NotFoundException(Exception):
 
 
 def get_steam_path() -> str:
-    with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Software\Valve\Steam") as key:
+    with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Software\\Valve\\Steam") as key:
         return winreg.QueryValueEx(key, "SteamPath")[0]
 
 
