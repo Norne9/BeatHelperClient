@@ -30,7 +30,6 @@ class MainFrame(wx.Frame):
         wx.Frame.__init__(self, *args, **kwargs)
         self.SetSize((640, 480))
         self.SetTitle("BeatHelper")
-        self.SetIcon(wx.Icon("icon.ico"))
 
         self.main_statusbar: wx.StatusBar = self.CreateStatusBar(1)
         self.main_statusbar.SetStatusWidths([-1])
