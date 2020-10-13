@@ -1,9 +1,11 @@
-from song_manager import SongManager, Song
+from song_manager import SongManager
+from song import Song
 from typing import Callable, List, Optional
 from workers.stoppable_thread import StoppableThread
 from workers.fetch_songs import FetchSongsWorker
 from workers.download_songs import DownloadSongsWorker
 from workers.make_playlist import make_playlist
+from workers.check_profile import CheckProfileWorker
 
 __all__ = ["AppLogic"]
 
@@ -47,7 +49,20 @@ class AppLogic:
         self.__fetch_songs(min_score, 10000)
 
     def recommend_songs(self, player_link: str):
-        pass
+        player_link = player_link.split("/")[-1].split("&", maxsplit=1)[0]
+        if not player_link.isdigit():
+            self.show_message("Wrong link!")
+            return
+
+        def on_err(msg: str):
+            self.set_status("Checking failed")
+            self.show_message(f"Error: {msg}")
+            self.set_buttons(True)
+
+        self.set_buttons(False)
+        self.set_status("Checking profile...")
+        self.worker = CheckProfileWorker(player_link, lambda low, avg: self.__fetch_songs(low, avg), on_err)
+        self.worker.start()
 
     def download(self):
         if len(self.current_songs) == 0:

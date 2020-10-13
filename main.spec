@@ -10,6 +10,7 @@ data_list = []
 for package, files in package_imports:
     proot = os.path.dirname(importlib.import_module(package).__file__)
     data_list.extend((os.path.join(proot, f), os.path.join(package, os.path.dirname(f))) for f in files)
+data_list.append(("icon.ico", "."))
 print(data_list)
 
 a = Analysis(['main.py'],
@@ -39,4 +40,5 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
+          icon='icon.ico'
           console=False)

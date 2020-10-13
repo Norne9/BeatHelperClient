@@ -17,7 +17,7 @@ def wx_after(func):
 class MainFrame(wx.Frame):
     app_logic: AppLogic
 
-    def __init__(self, *args, **kwds):
+    def __init__(self, *args, **kwargs):
         try:
             game_path = get_bs_path()
         except NotFoundException:
@@ -26,10 +26,11 @@ class MainFrame(wx.Frame):
                                   self.set_status, self.update_progress)
 
         # begin wxGlade: MainFrame.__init__
-        kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_FRAME_STYLE
-        wx.Frame.__init__(self, *args, **kwds)
+        kwargs["style"] = kwargs.get("style", 0) | wx.DEFAULT_FRAME_STYLE
+        wx.Frame.__init__(self, *args, **kwargs)
         self.SetSize((640, 480))
         self.SetTitle("BeatHelper")
+        self.SetIcon(wx.Icon("icon.ico"))
 
         self.main_statusbar: wx.StatusBar = self.CreateStatusBar(1)
         self.main_statusbar.SetStatusWidths([-1])
@@ -183,23 +184,22 @@ class MainFrame(wx.Frame):
         progress = max(0.0, min(progress, 10000.0))
         self.download_gauge.SetValue(int(progress * 10000))
 
-    def on_cancel(self, event):
+    def on_cancel(self, _):
         self.app_logic.cancel_task()
 
-    def on_browse(self, event):
+    def on_browse(self, _):
         dir_selector = wx.DirDialog(self, "Select game folder", self.path_text.GetValue())
         if dir_selector.ShowModal() == wx.ID_OK:
             self.path_text.SetValue(dir_selector.GetPath())
         dir_selector.Destroy()
 
-    def on_recommend(self, event):  # wxGlade: MainFrame.<event_handler>
-        print("Event handler 'on_recommend' not implemented!")
-        event.Skip()
+    def on_recommend(self, _):  # wxGlade: MainFrame.<event_handler>
+        self.app_logic.recommend_songs(self.link_text.GetValue())
 
-    def on_find(self, event):  # wxGlade: MainFrame.<event_handler>
+    def on_find(self, _):  # wxGlade: MainFrame.<event_handler>
         self.app_logic.find_songs(self.min_score_spin.GetValue())
 
-    def on_download(self, event):  # wxGlade: MainFrame.<event_handler>
+    def on_download(self, _):  # wxGlade: MainFrame.<event_handler>
         self.app_logic.download()
 
 

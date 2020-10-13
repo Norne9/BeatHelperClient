@@ -23,7 +23,7 @@ class FetchSongsWorker(StoppableThread):
 
     def run(self) -> None:
         try:
-            payload = {"minScore": self.min_score, "avgScore": self.avg_score}
+            payload = {"minScore": f"{self.min_score:.2f}", "avgScore": f"{self.avg_score:.2f}"}
             resp = requests.get("http://51.15.122.220:12380/song", params=payload, timeout=5.0)
             data = json.loads(resp.text)
             songs = [Song(song["key"], song["hash"], song["songName"], song["uploader"], song["difficulty"],

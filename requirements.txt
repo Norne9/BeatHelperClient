@@ -1,2 +1,4 @@
-cloudscraper>=1.2.48
-wxPython>=4.1.0
+cloudscraper~=1.2.48
+wxPython~=4.1.0
+beautifulsoup4~=4.9.3
+requests~=2.24.0

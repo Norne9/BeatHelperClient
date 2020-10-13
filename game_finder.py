@@ -2,7 +2,7 @@ import winreg
 import os
 from typing import List
 
-__all__ = ["get_bs_path"]
+__all__ = ["get_bs_path", "NotFoundException"]
 
 
 class NotFoundException(Exception):
