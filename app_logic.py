@@ -49,6 +49,7 @@ class AppLogic:
         self.__fetch_songs(min_score, 10000)
 
     def recommend_songs(self, player_link: str):
+        self.playlist_name = "Recommended"
         player_link = player_link.split("/")[-1].split("&", maxsplit=1)[0]
         if not player_link.isdigit():
             self.show_message("Wrong link!")
