@@ -24,4 +24,5 @@ class Song:
 
     def get_filename(self) -> str:
         filename_dict = {ord(i): None for i in '<>:"\\/|?*'}
-        return f"{self.key} ({self.uploader.translate(filename_dict)})"
+        name = self.song_name.split('-')[0].strip() if "-" in self.song_name else self.song_name
+        return f"{self.key} ({name.translate(filename_dict)} - {self.uploader.translate(filename_dict)})"
