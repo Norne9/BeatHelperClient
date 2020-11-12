@@ -24,4 +24,4 @@ class Song:
 
     def get_filename(self) -> str:
         filename_dict = {ord(i): None for i in '<>:"\\/|?*'}
-        return f"{self.key} ({self.song_name.translate(filename_dict)})"
+        return f"{self.key} ({self.uploader.translate(filename_dict)})"
